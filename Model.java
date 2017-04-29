@@ -101,4 +101,40 @@ public class Model {
         if (isChanged) addTile();
     }
 
+    private void rotateToRight() {
+        Tile tmp;
+        for (int i = 0; i < FIELD_WIDTH / 2; i++) {
+            for (int j = i; j < FIELD_WIDTH - 1 - i; j++) {
+                tmp = gameTiles[i][j];
+                gameTiles[i][j] = gameTiles[FIELD_WIDTH-j-1][i];
+                gameTiles[FIELD_WIDTH-j-1][i] = gameTiles[FIELD_WIDTH-i-1][FIELD_WIDTH-j-1];
+                gameTiles[FIELD_WIDTH-i-1][FIELD_WIDTH-j-1] = gameTiles[j][FIELD_WIDTH-i-1];
+                gameTiles[j][FIELD_WIDTH-i-1] = tmp;
+            }
+        }
+    }
+
+    void right() {
+        rotateToRight();
+        rotateToRight();
+        left();
+        rotateToRight();
+        rotateToRight();
+    }
+    void up() {
+        rotateToRight();
+        rotateToRight();
+        rotateToRight();
+        left();
+        rotateToRight();
+    }
+    void down() {
+        rotateToRight();
+        left();
+        rotateToRight();
+        rotateToRight();
+        rotateToRight();
+    }
+
+
 }
