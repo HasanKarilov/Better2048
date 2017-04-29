@@ -60,9 +60,6 @@ public class Model {
         }
     }
 
-    /**
-     *
-     */
     private boolean compressTiles(Tile[] tiles) {
         boolean change = false;
         for (int k = 0; k < tiles.length - 1; k++) {
@@ -90,6 +87,18 @@ public class Model {
             }
         }
         return change;
+    }
+
+    /** Движение строк плиток в лево
+     */
+    public void left() {
+        boolean isChanged = false;
+        for (int i = 0; i < FIELD_WIDTH; i++) {
+            if (compressTiles(gameTiles[i]) | mergeTiles(gameTiles[i])) {
+                isChanged = true;
+            }
+        }
+        if (isChanged) addTile();
     }
 
 }
