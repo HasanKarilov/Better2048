@@ -2,6 +2,7 @@ package com.javarush.task.task35.task3513;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Будет содержать игровую логику и хранить игровое поле
@@ -11,6 +12,11 @@ public class Model {
     private Tile[][] gameTiles;
     int score;
     int maxTile;
+
+    private boolean isSaveNeeded = true;
+    private Stack<Tile[][]> previousStates=new Stack<>();
+    private Stack<Integer> previousScores=new Stack<>();
+
 
     public Model(){
         resetGameTiles();
@@ -159,5 +165,24 @@ public class Model {
 
     public Tile[][] getGameTiles() {
         return gameTiles;
+    }
+
+    private void saveState(Tile[][] tiles){
+        Tile[][] bufTiles=new Tile[FIELD_WIDTH][FIELD_WIDTH];
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles[i].length; j++) {
+                bufTiles[i][j]=tiles[i][j];
+                bufTiles[i][j].value=tiles[i][j].value;
+            }
+        }
+        previousStates.push(bufTiles);
+        previousScores.push(this.score);
+        isSaveNeeded=false;
+    }
+    public void rollback(){
+        if(!previousScores.isEmpty()&&!previousStates.isEmpty()) {
+            gameTiles = previousStates.pop();
+            score=previousScores.pop();
+        }
     }
 }
